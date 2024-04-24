@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Firebase.Auth;
+using Firebase.Database;
 
 
 public class Singup : MonoBehaviour
@@ -13,17 +14,22 @@ public class Singup : MonoBehaviour
     private Button _registrationButton;
     private Coroutine _signupCoroutine;
     
+    private DatabaseReference mDatabaseRef;
+
+    [SerializeField] private TMP_InputField _usernameInputField;
 
     // Start is called before the first frame update
     void Reset()
     {
         _registrationButton = GetComponent<Button>();
+        _usernameInputField = GameObject.Find("InputFieldUsername").GetComponent<TMP_InputField>();
     }
 
     private void Start()
     {
        // _registrationButton.clicked += HandleRegisterButtonClicked;
        _registrationButton.onClick.AddListener(HandleRegisterButtonClicked);
+       mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
     private void HandleRegisterButtonClicked()
@@ -52,6 +58,9 @@ public class Singup : MonoBehaviour
             // Se creo
             AuthResult result = registerTask.Result;
             Debug.LogFormat("Firebase user created successfuly: {0} ({1})", result.User.DisplayName, result.User.UserId);
+
+            mDatabaseRef.Child("users").Child(result.User.UserId).Child("username")
+                .SetValueAsync(_usernameInputField.text);
         }
     }
 

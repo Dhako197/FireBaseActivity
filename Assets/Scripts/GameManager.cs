@@ -1,4 +1,6 @@
 using System.Collections;
+using Firebase.Auth;
+using Firebase.Database;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -78,6 +80,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.UpdateMaxScore();
         
         ScoreCanva.SetActive(true);
+        HandleSaveScoreButtonCliked();
 
         StartCoroutine(ReloadScene());
     }
@@ -91,12 +94,19 @@ public class GameManager : MonoBehaviour
         onIncreaseScore?.Invoke();
     }
 
+    private void HandleSaveScoreButtonCliked()
+    {
+        maxScore = SaveBestScore.Instance.BestScore;
+        string uid = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        FirebaseDatabase.DefaultInstance.RootReference.Child("users").Child(uid).Child("score").SetValueAsync(maxScore);
+    }
+
     private IEnumerator ReloadScene()
     {
         yield return new WaitForSeconds(timeToReloadScene);
 
         Debug.Log("GameManager :: ReloadScene()");
-
-        SceneManager.LoadScene(0);
+        string sceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(sceneName);
     }
 }
