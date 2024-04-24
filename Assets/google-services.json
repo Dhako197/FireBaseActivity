@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "772915483239",
+    "project_id": "demoflappy",
+    "storage_bucket": "demoflappy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772915483239:android:8b668e695442ac98ef3ac2",
+        "android_client_info": {
+          "package_name": "com.upb.flappydemo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp3zI-7zWx4qGeuHpZe4jm_E-zzDT6ZBI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
